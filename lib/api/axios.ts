@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://blog-article.free.nf/php", // adjust for your PHP host
+  baseURL:
+    process.env.NEXT_PUBLIC_API_BASE || "https://blog-article.free.nf/php", // adjust for your PHP host
   withCredentials: false,
   headers: { Accept: "application/json" },
 });
