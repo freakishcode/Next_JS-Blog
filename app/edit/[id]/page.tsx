@@ -1,6 +1,11 @@
 import Navigation from "@/components/Navigation";
 import BlogUpdateForm from "@/components/BlogUpdateForm";
 
+// Using Suspense for data fetching
+import { Suspense } from "react";
+
+import LoadingAnimation from "@/UI/PageLoading-Animation/LoadingAnimation";
+
 interface Props {
   params: Promise<{ id: string }>;
 }
@@ -11,7 +16,10 @@ export default async function EditPage({ params }: Props) {
   return (
     <>
       <Navigation />
-      <BlogUpdateForm id={id} />
+
+      <Suspense fallback={<LoadingAnimation />}>
+        <BlogUpdateForm id={id} />
+      </Suspense>
     </>
   );
 }
