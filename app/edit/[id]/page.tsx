@@ -6,8 +6,12 @@ import { Suspense } from "react";
 
 import LoadingAnimation from "@/UI/PageLoading-Animation/LoadingAnimation";
 
+// interface Props {
+//   params: Promise<{ id: string }>;
+// }
+
 interface Props {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
 export default async function EditPage({ params }: Props) {
