@@ -1,8 +1,11 @@
 // Using Suspense for data fetching
 import { Suspense } from "react";
 
+// UI for loading animation
 import LoadingAnimation from "@/UI/PageLoading-Animation/LoadingAnimation";
-
+// Navigation component for site navigation
+import Navigation from "@/components/Navigation";
+// Component to display post details
 import PostDetails from "./PostDetails";
 
 interface PageProps {
@@ -14,6 +17,7 @@ export default function BlogViewPage({ params }: PageProps) {
 
   return (
     <>
+      <Navigation />
       <Suspense fallback={<LoadingAnimation />}>
         <PostDetails id={id} />
       </Suspense>

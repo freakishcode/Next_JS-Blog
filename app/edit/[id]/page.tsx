@@ -1,9 +1,12 @@
-import Navigation from "@/components/Navigation";
-import BlogUpdateForm from "@/components/BlogUpdateForm";
-
 // Using Suspense for data fetching
 import { Suspense } from "react";
 
+// Navigation component for site navigation
+import Navigation from "@/components/Navigation";
+// Component for updating blog posts
+import BlogUpdateForm from "@/components/BlogUpdateForm";
+
+// UI for loading animation
 import LoadingAnimation from "@/UI/PageLoading-Animation/LoadingAnimation";
 
 // interface Props {
