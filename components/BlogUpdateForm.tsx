@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -10,7 +10,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // MUI
-import { Typography, Button, Stack } from "@mui/material";
+import {
+  Typography,
+  Button,
+  Stack,
+  FormControl,
+  FormHelperText,
+  Paper,
+  IconButton,
+  Avatar,
+} from "@mui/material";
 
 // 🔹 Icons
 import {
@@ -20,10 +29,11 @@ import {
   CloudUpload as CloudUploadIcon,
   ArrowBack as ArrowBackIcon,
   Image as ImageIcon,
+  Close as CloseIcon,
 } from "@mui/icons-material";
 
 // API
-import { updatePost, fetchPostByID } from "../lib/api/posts";
+import { BASE_URL, updatePost, fetchPostByID } from "../lib/api/posts";
 
 // Validators and Types
 import {
@@ -38,6 +48,8 @@ import { useToast } from "@/UI/ToastMessage/ToastContext";
 export default function EditPostPage({ id: propId }: { id?: string }) {
   const router = useRouter();
   const toast = useToast();
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isNewImage, setIsNewImage] = useState(false);
 
   const searchParams = useSearchParams();
   const id = propId ?? (searchParams ? searchParams.get("id") : null);
@@ -95,9 +107,15 @@ export default function EditPostPage({ id: propId }: { id?: string }) {
   // hydrate form when data is ready
   useEffect(() => {
     if (!postData) return;
-
     setValue("title", postData.title ?? "");
     setValue("content", postData.content ?? "");
+
+    // Set existing image preview if available
+    if (postData.image_url) {
+      const imageUrl = BASE_URL + postData.image_url;
+      setImagePreview(imageUrl);
+      setIsNewImage(false);
+    }
   }, [postData, setValue]);
 
   const onSubmit = (data: BlogFormData) => {
@@ -165,32 +183,130 @@ export default function EditPostPage({ id: propId }: { id?: string }) {
         </div>
 
         {/* Image Upload */}
-        <div>
-          <label className='flex items-center gap-2 text-sm font-medium text-gray-700'>
+        <FormControl fullWidth error={!!errors.image}>
+          <Typography
+            variant='subtitle2'
+            component='label'
+            className='flex items-center gap-2 font-medium text-gray-700 mb-2'
+          >
             <ImageIcon color='primary' /> Featured Image
-          </label>
-          <input
-            type='file'
-            accept='image/*'
-            onChange={(e) => {
-              const file = e.target.files?.[0] ?? (null as File | null);
-              setValue("image", file, { shouldValidate: true });
+          </Typography>
+
+          <Paper
+            component='label'
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 3,
+              backgroundColor: "#f5f5f5",
+              border: "2px dashed",
+              borderColor: errors.image ? "error.main" : "primary.light",
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                backgroundColor: "#f0f0f0",
+                borderColor: "primary.main",
+              },
             }}
-            className='mt-2 text-black'
-          />
+          >
+            <Stack alignItems='center' spacing={1}>
+              <CloudUploadIcon sx={{ fontSize: 32, color: "primary.main" }} />
+              <Typography variant='body2' color='textSecondary'>
+                Click to upload or drag and drop
+              </Typography>
+              <Typography variant='caption' color='textSecondary'>
+                PNG, JPG, GIF up to 10MB
+              </Typography>
+            </Stack>
+            <input
+              type='file'
+              accept='image/*'
+              onChange={(e) => {
+                const file = e.target.files?.[0] ?? (null as File | null);
+                setValue("image", file, { shouldValidate: true });
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    setImagePreview(reader.result as string);
+                    setIsNewImage(true);
+                  };
+                  reader.readAsDataURL(file);
+                } else {
+                  setImagePreview(null);
+                  setIsNewImage(false);
+                }
+              }}
+              hidden
+            />
+          </Paper>
+          {imagePreview && (
+            <Paper
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: 2,
+                marginTop: 2,
+                backgroundColor: "#fafafa",
+                border: "1px solid",
+                borderColor: "divider",
+              }}
+            >
+              <Stack
+                direction='row'
+                justifyContent='space-between'
+                alignItems='center'
+                width='100%'
+                sx={{ marginBottom: 2 }}
+              >
+                {/* Label */}
+                <Typography variant='subtitle2' className='font-medium'>
+                  Image Preview: {!isNewImage && postData.image_url}
+                </Typography>
+
+                {isNewImage && (
+                  <IconButton
+                    size='small'
+                    onClick={() => {
+                      setImagePreview(null);
+                      setIsNewImage(false);
+                    }}
+                    sx={{
+                      color: "text.secondary",
+                      "&:hover": { backgroundColor: "action.hover" },
+                    }}
+                  >
+                    <CloseIcon fontSize='small' />
+                  </IconButton>
+                )}
+              </Stack>
+              <Avatar
+                src={imagePreview}
+                alt='Preview'
+                sx={{
+                  width: 300,
+                  height: 300,
+                  boxShadow: 2,
+                  border: "2px solid",
+                  borderColor: "primary.light",
+                }}
+              />
+            </Paper>
+          )}
           {errors.image && (
-            <p className='text-red-500 text-sm mt-1'>
+            <FormHelperText>
               {String(
                 typeof errors.image === "object" && "message" in errors.image
                   ? errors.image.message
                   : "Invalid image"
               )}
-            </p>
+            </FormHelperText>
           )}
-        </div>
+        </FormControl>
 
         {/* Action Buttons */}
-        <Stack direction='row' spacing={2}>
+        <Stack direction='row' spacing={2} mt={2}>
           <Button
             type='button'
             variant='outlined'

@@ -50,7 +50,8 @@ try {
     http_response_code(200);
     echo json_encode($response);
 
-} catch (PDOException $e) {
+}
+ catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());
     http_response_code(500);
     echo json_encode([

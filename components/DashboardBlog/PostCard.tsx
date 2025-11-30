@@ -46,9 +46,7 @@ export default function PostListItem(props: PostCardPropsType) {
         <Box
           component='img'
           src={
-            post.image_url
-              ? `${BASE_URL}/${post.image_url}`
-              : "/placeholder.jpg"
+            post.image_url ? `${BASE_URL}${post.image_url}` : "/placeholder.jpg"
           }
           alt={post.title}
           sx={{

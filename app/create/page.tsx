@@ -182,8 +182,22 @@ export default function BlogPostForm() {
                 const file = e.target.files?.[0] ?? (null as File | null);
                 setValue("image", file, { shouldValidate: true });
               }}
-              className='mt-2 text-black'
+              id='image-upload'
+              className='hidden'
             />
+            <label htmlFor='image-upload'>
+              <Button
+                component='span'
+                variant='outlined'
+                startIcon={<CloudUploadIcon />}
+                fullWidth
+                className='mt-2'
+              >
+                {watchedImage && watchedImage instanceof File
+                  ? watchedImage.name
+                  : "Choose Image"}
+              </Button>
+            </label>
             {errors.image && (
               <p className='text-red-500 text-sm mt-1'>
                 {String(

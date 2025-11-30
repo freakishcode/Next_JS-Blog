@@ -9,16 +9,20 @@ import Navigation from "@/components/Navigation";
 import PostDetails from "./PostDetails";
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default function BlogViewPage({ params }: PageProps) {
-  const { id } = params;
+// interface PageProps {
+//   params: { id: string };
+// }
+
+export default async function BlogViewPage({ params }: PageProps) {
+  const { id } = await params;
 
   return (
     <>
-      <Navigation />
       <Suspense fallback={<LoadingAnimation />}>
+        <Navigation />
         <PostDetails id={id} />
       </Suspense>
       ;

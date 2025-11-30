@@ -2,14 +2,18 @@
 // Blog Post APIs
 // ----------------------
 
-// Axios instance
-import { api } from "./axios";
-
 import axios from "axios";
 
 // URL for Image
 export const BASE_URL =
-  process.env.NEXT_IMAGE_URL_BASE_PATH || "https://blog-article.free.nf";
+  process.env.NEXT_PUBLIC_API_BASE || "https://blog-article.free.nf";
+
+// Axios instance
+const api = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: false,
+  headers: { Accept: "application/json" },
+});
 
 import {
   BlogFormData,
@@ -29,7 +33,7 @@ export const fetchPosts = async ({
   pageParam = 1,
   pageSize = 10,
 } = {}): Promise<PaginatedPostsResponse> => {
-  const res = await api.get("/get_posts.php", {
+  const res = await api.get("/php/get_posts.php", {
     params: { page: pageParam, pageSize },
   });
 
@@ -54,7 +58,7 @@ export async function createPost(
   if (data.image) formData.append("image", data.image as Blob);
 
   const response = await api.post<CreatePostResponse>(
-    "/create_post.php",
+    "/php/create_post.php",
     formData,
     {
       headers: { "Content-Type": "multipart/form-data" },
@@ -77,7 +81,7 @@ export async function updatePost(
   if (data.image) formData.append("image", data.image as Blob);
 
   const response = await api.post<CreatePostResponse>(
-    "/update_post.php",
+    "/php/update_post.php",
     formData,
     {
       headers: { "Content-Type": "multipart/form-data" },
@@ -89,7 +93,7 @@ export async function updatePost(
 
 // fetch function for a single post by ID
 export const fetchPostByID = async (id: string) => {
-  const res = await api.get("/get_post_by_id.php", { params: { id } });
+  const res = await api.get("/php/get_post_by_id.php", { params: { id } });
 
   if (!res.data.success) {
     throw new Error(res.data.message || "Failed to fetch post");
@@ -100,7 +104,7 @@ export const fetchPostByID = async (id: string) => {
 
 // Delete a single Blog by Id
 export const deletePost = async (id: number | string) => {
-  const res = await api.delete("/delete_post.php", { data: { id } });
+  const res = await api.delete("/php/delete_post.php", { data: { id } });
   return res.data;
 };
 
@@ -116,7 +120,7 @@ export const sendContactForm = async (data: ContactUSFormData) => {
 // Read A Single Post
 // ----------------------
 export const ReadPostById = async (id: string | number): Promise<PostType> => {
-  const res = await api.get(`/read_post_by_id.php?id=${id}`);
+  const res = await api.get(`/php/read_post_by_id.php?id=${id}`);
 
   // console.log("RAW RESPONSE:", res.data);
 

@@ -59,9 +59,7 @@ export default function PostDetails({ id }: { id: string }) {
         <Box
           component='img'
           src={
-            data.image_url
-              ? `${BASE_URL}/${data.image_url}`
-              : "/placeholder.jpg"
+            data.image_url ? `${BASE_URL}${data.image_url}` : "/placeholder.jpg"
           }
           alt={data.title}
           sx={{
