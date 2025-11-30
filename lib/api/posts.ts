@@ -1,10 +1,15 @@
+// ----------------------
+// Blog Post APIs
+// ----------------------
+
+// Axios instance
 import { api } from "./axios";
 
 import axios from "axios";
 
 // URL for Image
 export const BASE_URL =
-  process.env.NEXT_IMAGE_URL_BASE_PATH || "http://localhost";
+  process.env.NEXT_IMAGE_URL_BASE_PATH || "https://blog-article.free.nf";
 
 import {
   BlogFormData,
