@@ -69,6 +69,7 @@ export type PaginatedPostsResponse = {
 // Props Type for PostsGrid
 export type PostsGridPropsType = {
   posts: Post[];
+  onRead: (id: number | string) => void;
   onEdit: (id: number | string) => void;
   onDelete: (id: number | string) => void;
   deletePending?: boolean;
@@ -77,6 +78,7 @@ export type PostsGridPropsType = {
 // Props Type for PostCard
 export type PostCardPropsType = {
   post: Post;
+  onRead: (id: number | string) => void;
   onEdit: (id: number | string) => void;
   onDelete: (id: number | string) => void;
   deletePending?: boolean;
@@ -87,3 +89,14 @@ export type DeleteResponse = {
   success: boolean;
   message: string;
 };
+
+
+export const postSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  content: z.string(),
+  image_url: z.string().nullable(),   // <-- Update here,
+  created_at: z.string(),
+});
+
+export type PostType = z.infer<typeof postSchema>;

@@ -8,7 +8,7 @@ import PostCard from "@/components/DashboardBlog/PostCard";
 import { PostsGridPropsType } from "@/lib/validators";
 
 export default function PostsGrid(props: PostsGridPropsType) {
-  const { posts, onEdit, onDelete, deletePending = false } = props;
+  const { posts, onRead, onEdit, onDelete, deletePending = false } = props;
 
   // No Posts Found
   if (!posts || posts.length === 0) {
@@ -37,6 +37,7 @@ export default function PostsGrid(props: PostsGridPropsType) {
         <PostCard
           key={post.id}
           post={post}
+          onRead={onRead}
           onEdit={onEdit}
           onDelete={onDelete}
           deletePending={deletePending}

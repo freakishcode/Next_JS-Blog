@@ -11,13 +11,17 @@ import {
   Divider,
 } from "@mui/material";
 
-import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
+import {
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+  ReadMore as ReadMore,
+} from "@mui/icons-material";
 
 import { BASE_URL } from "@/lib/api/posts";
 import { PostCardPropsType } from "@/lib/validators";
 
 export default function PostListItem(props: PostCardPropsType) {
-  const { post, onEdit, onDelete, deletePending = false } = props;
+  const { post, onRead, onEdit, onDelete, deletePending = false } = props;
 
   return (
     <Card
@@ -104,7 +108,19 @@ export default function PostListItem(props: PostCardPropsType) {
       <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
         <Button
           variant='contained'
-          color='primary'
+          color='info'
+          size='small'
+          fullWidth
+          startIcon={<ReadMore />}
+          onClick={() => onRead(post.id)}
+          sx={{ textTransform: "none", fontSize: "0.75rem", px: 2 }}
+        >
+          Read
+        </Button>
+
+        <Button
+          variant='contained'
+          color='secondary'
           size='small'
           fullWidth
           startIcon={<EditIcon />}

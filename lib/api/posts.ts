@@ -10,6 +10,8 @@ import {
   BlogFormData,
   CreatePostResponse,
   ContactUSFormData,
+  postSchema,
+  PostType,
 } from "../validators";
 
 import { PaginatedPostsResponse } from "../validators";
@@ -103,4 +105,21 @@ export const sendContactForm = async (data: ContactUSFormData) => {
     headers: { "Content-Type": "application/json" },
   });
   return res.data;
+};
+
+// ----------------------
+// Read A Single Post
+// ----------------------
+export const ReadPostById = async (id: string | number): Promise<PostType> => {
+  const res = await api.get(`/read_post_by_id.php?id=${id}`);
+
+  // console.log("RAW RESPONSE:", res.data);
+
+  const validated = postSchema.safeParse(res.data);
+  if (!validated.success) {
+    console.error(validated.error);
+    throw new Error("Invalid response structure from backend");
+  }
+
+  return validated.data;
 };

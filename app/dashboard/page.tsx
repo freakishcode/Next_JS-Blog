@@ -98,6 +98,7 @@ export default function BlogDashboard() {
 
       <PostsGrid
         posts={data.data}
+        onRead={(id) => router.push(`/read/${id}`)}
         onEdit={(id) => router.push(`/edit/${id}`)}
         onDelete={(id) => deleteMutation.mutate(id)}
         deletePending={deleteMutation.isPending}
