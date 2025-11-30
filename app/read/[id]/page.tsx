@@ -1,11 +1,23 @@
+// Using Suspense for data fetching
+import { Suspense } from "react";
+
+import LoadingAnimation from "@/UI/PageLoading-Animation/LoadingAnimation";
+
 import PostDetails from "./PostDetails";
 
 interface PageProps {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
-export default async function BlogViewPage({ params }: PageProps) {
-  const { id } = await params;
+export default function BlogViewPage({ params }: PageProps) {
+  const { id } = params;
 
-  return <PostDetails id={id} />;
+  return (
+    <>
+      <Suspense fallback={<LoadingAnimation />}>
+        <PostDetails id={id} />
+      </Suspense>
+      ;
+    </>
+  );
 }

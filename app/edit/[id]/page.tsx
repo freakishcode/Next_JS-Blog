@@ -14,7 +14,7 @@ interface Props {
   params: { id: string };
 }
 
-export default async function EditPage({ params }: Props) {
+export default function EditPage({ params }: Props) {
   const { id } = params;
 
   return (
