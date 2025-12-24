@@ -50,6 +50,7 @@ import { easeInOut, motion } from "motion/react";
 const MotionBox = motion("div");
 const MotionForm = motion("form");
 const MotionAside = motion("aside");
+const MotionButton = motion(Button);
 
 export default function BlogPostForm() {
   // TanStack Query
@@ -227,7 +228,10 @@ export default function BlogPostForm() {
 
           {/* Action Buttons */}
           <div className=' flex flex-col gap-2.5'>
-            <Button
+            <MotionButton
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
               type='submit'
               variant='contained'
               disabled={createPostMutation.isPending}
@@ -235,9 +239,11 @@ export default function BlogPostForm() {
               fullWidth
             >
               {createPostMutation.isPending ? "Publishing..." : "Publish Post"}
-            </Button>
+            </MotionButton>
 
-            <Button
+            <MotionButton
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.95 }}
               variant='contained'
               color='warning'
               startIcon={<RestartAltIcon />}
@@ -247,7 +253,7 @@ export default function BlogPostForm() {
               }}
             >
               Reset
-            </Button>
+            </MotionButton>
           </div>
         </MotionForm>
 

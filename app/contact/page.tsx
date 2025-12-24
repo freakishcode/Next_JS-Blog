@@ -15,7 +15,6 @@ import { sendContactForm } from "@/lib/api/posts";
 
 //MUI
 import {
-  Box,
   TextField,
   InputAdornment,
   Typography,
@@ -32,9 +31,11 @@ import {
   RestartAlt as RestartAltIcon,
 } from "@mui/icons-material";
 
+// Motion library
 import { easeInOut, motion } from "motion/react";
 
-const MotionBox = motion(Box);
+// Motion-enhanced Button and Typography
+const MotionButton = motion(Button);
 const MotionTypography = motion(Typography);
 
 export default function ContactPage() {
@@ -82,25 +83,11 @@ export default function ContactPage() {
         ✨ Contact Us ✨
       </MotionTypography>
 
-      <MotionBox
+      <motion.form
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        component='form'
-        sx={{
-          display: "grid",
-          gap: 3,
-          bgcolor: "background.paper",
-          p: 4,
-          borderRadius: 2,
-          maxWidth: 800,
-          margin: "0 auto",
-          gridTemplateColumns: {
-            xs: "1fr",
-            sm: "repeat(2, 1fr)",
-            lg: "repeat(1, 1fr)",
-          },
-        }}
+        className='grid gap-4 bg-white p-5 rounded-md max-w-[800px] mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-1'
         onSubmit={handleSubmit((data) => sendContact.mutate(data))}
       >
         {/* name */}
@@ -157,8 +144,14 @@ export default function ContactPage() {
         />
 
         {/* Action Buttons */}
-        <Stack spacing={5} mt={3} direction='row' width='100%' margin='0 auto'>
-          <Button
+        <Stack spacing={4} my={2} direction='row' width='100%'>
+          <MotionButton
+            disabled={false}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             type='submit'
             variant='contained'
             color='primary'
@@ -167,9 +160,15 @@ export default function ContactPage() {
             fullWidth
           >
             {sendContact.isPending ? "Sending..." : "Send Message"}
-          </Button>
+          </MotionButton>
 
-          <Button
+          <MotionButton
+            disabled={false}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             variant='contained'
             color='warning'
             startIcon={<RestartAltIcon />}
@@ -179,9 +178,9 @@ export default function ContactPage() {
             }}
           >
             Reset
-          </Button>
+          </MotionButton>
         </Stack>
-      </MotionBox>
+      </motion.form>
     </>
   );
 }
