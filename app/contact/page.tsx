@@ -32,6 +32,11 @@ import {
   RestartAlt as RestartAltIcon,
 } from "@mui/icons-material";
 
+import { easeInOut, motion } from "motion/react";
+
+const MotionBox = motion(Box);
+const MotionTypography = motion(Typography);
+
 export default function ContactPage() {
   const toast = useToast();
 
@@ -66,11 +71,21 @@ export default function ContactPage() {
     <>
       <Navigation />
 
-      <Typography variant='h5' align='center' gutterBottom>
+      <MotionTypography
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: easeInOut(0.5) }}
+        variant='h5'
+        align='center'
+        gutterBottom
+      >
         ✨ Contact Us ✨
-      </Typography>
+      </MotionTypography>
 
-      <Box
+      <MotionBox
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
         component='form'
         sx={{
           display: "grid",
@@ -166,7 +181,7 @@ export default function ContactPage() {
             Reset
           </Button>
         </Stack>
-      </Box>
+      </MotionBox>
     </>
   );
 }

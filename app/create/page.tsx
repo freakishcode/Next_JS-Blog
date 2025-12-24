@@ -43,6 +43,14 @@ import {
   CreatePostError,
 } from "@/lib/validators";
 
+// Motion library
+import { easeInOut, motion } from "motion/react";
+
+// Motion components
+const MotionBox = motion("div");
+const MotionForm = motion("form");
+const MotionAside = motion("aside");
+
 export default function BlogPostForm() {
   // TanStack Query
   const queryClient = useQueryClient();
@@ -112,9 +120,17 @@ export default function BlogPostForm() {
       <Navigation />
 
       {/* form container */}
-      <div className='min-h-screen  p-6 grid grid-cols-1 md:grid-cols-2 gap-6'>
+      <MotionBox
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: easeInOut(0.5) }}
+        className='min-h-screen  p-6 grid grid-cols-1 md:grid-cols-2 gap-6'
+      >
         {/* --- BLOG FORM --- */}
-        <form
+        <MotionForm
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: easeInOut(0.5) }}
           onSubmit={handleSubmit(onSubmit)}
           className='bg-white shadow rounded-2xl p-6 space-y-6'
           noValidate
@@ -233,10 +249,15 @@ export default function BlogPostForm() {
               Reset
             </Button>
           </div>
-        </form>
+        </MotionForm>
 
         {/* --- LIVE PREVIEW --- */}
-        <aside className='bg-white shadow rounded-2xl p-6'>
+        <MotionAside
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: easeInOut(0.5) }}
+          className='bg-white shadow rounded-2xl p-6'
+        >
           {/* Heading text */}
           <Typography
             variant='h6'
@@ -271,8 +292,8 @@ export default function BlogPostForm() {
           >
             {watchedContent || "Start writing to preview"}
           </Typography>
-        </aside>
-      </div>
+        </MotionAside>
+      </MotionBox>
     </>
   );
 }

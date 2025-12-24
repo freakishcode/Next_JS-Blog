@@ -3,9 +3,15 @@
 import { Box, Button, Typography } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 
+import { easeInOut, motion } from "motion/react";
+
 type Props = {
   onCreate: () => void;
 };
+
+// Motion-enhanced Button and Typography
+const MotionButton = motion(Button);
+const MotionTitle = motion(Typography);
 
 export default function Header({ onCreate }: Props) {
   return (
@@ -19,7 +25,10 @@ export default function Header({ onCreate }: Props) {
         gap: 2,
       }}
     >
-      <Typography
+      <MotionTitle
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: easeInOut(0.5) }}
         variant='h4'
         fontWeight='bold'
         sx={{
@@ -29,9 +38,15 @@ export default function Header({ onCreate }: Props) {
         }}
       >
         🧭 Blog Dashboard
-      </Typography>
+      </MotionTitle>
 
-      <Button
+      <MotionButton
+        disabled={false}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
         variant='contained'
         color='success'
         startIcon={<AddIcon />}
@@ -39,7 +54,7 @@ export default function Header({ onCreate }: Props) {
         sx={{ textTransform: "none", fontWeight: "bold", px: 3 }}
       >
         Create Post
-      </Button>
+      </MotionButton>
     </Box>
   );
 }

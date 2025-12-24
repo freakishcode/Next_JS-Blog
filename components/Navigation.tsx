@@ -3,11 +3,22 @@
 import { AppBar, Toolbar, Button, Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 
+import { easeInOut, motion } from "motion/react";
+
+// Motion-enhanced AppBar
+const MotionAppBar = motion(AppBar);
+
 export default function Navigation() {
   const router = useRouter();
 
   return (
-    <AppBar position='static' sx={{ mb: 4 }}>
+    <MotionAppBar
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: easeInOut(0.5) }}
+      position='static'
+      sx={{ mb: 4 }}
+    >
       <Toolbar
         sx={{
           display: "flex",
@@ -61,6 +72,6 @@ export default function Navigation() {
           </Button>
         </Box>
       </Toolbar>
-    </AppBar>
+    </MotionAppBar>
   );
 }

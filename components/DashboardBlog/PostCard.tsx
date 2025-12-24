@@ -1,5 +1,6 @@
 "use client";
-
+import { useState } from "react";
+// MUI Components
 import {
   Card,
   // CardContent,
@@ -9,22 +10,40 @@ import {
   Box,
   // Stack,
   Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
+import { useToast } from "@/UI/ToastMessage/ToastContext";
 
+// Icons
 import {
   Delete as DeleteIcon,
   Edit as EditIcon,
   ReadMore as ReadMore,
 } from "@mui/icons-material";
 
+// API base URL for images
 import { BASE_URL } from "@/lib/api/posts";
+// Props Type
 import { PostCardPropsType } from "@/lib/validators";
+
+import { easeInOut, motion } from "motion/react";
+
+// Motion Card
+const MotionCard = motion(Card);
 
 export default function PostListItem(props: PostCardPropsType) {
   const { post, onRead, onEdit, onDelete, deletePending = false } = props;
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const toast = useToast();
 
   return (
-    <Card
+    <MotionCard
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: easeInOut(0.3) }}
       sx={{
         borderRadius: 2,
         boxShadow: 2,
@@ -135,12 +154,38 @@ export default function PostListItem(props: PostCardPropsType) {
           fullWidth
           startIcon={<DeleteIcon />}
           disabled={deletePending}
-          onClick={() => onDelete(post.id)}
+          onClick={() => setConfirmOpen(true)}
           sx={{ textTransform: "none", fontSize: "0.75rem", px: 2 }}
         >
           {deletePending ? "Deleting..." : "Delete"}
         </Button>
       </CardActions>
-    </Card>
+
+      <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
+        <DialogTitle>Confirm deletion</DialogTitle>
+        <DialogContent>
+          <Typography>
+            Are you sure you want to delete this post? This action cannot be
+            undone.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfirmOpen(false)} color='primary'>
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              setConfirmOpen(false);
+              if (toast) toast.open("🗑️ Deleting post...");
+              onDelete?.(post.id);
+            }}
+            color='error'
+            autoFocus
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </MotionCard>
   );
 }

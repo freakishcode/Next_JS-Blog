@@ -7,6 +7,11 @@ import PostCard from "@/components/DashboardBlog/PostCard";
 // Props Type
 import { PostsGridPropsType } from "@/lib/validators";
 
+import { motion } from "motion/react";
+
+// Motion Box
+const MotionPostsGrid = motion(Box);
+
 export default function PostsGrid(props: PostsGridPropsType) {
   const { posts, onRead, onEdit, onDelete, deletePending = false } = props;
 
@@ -22,7 +27,10 @@ export default function PostsGrid(props: PostsGridPropsType) {
     );
   }
   return (
-    <Box
+    <MotionPostsGrid
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
       sx={{
         display: "grid",
         gap: 3,
@@ -43,6 +51,6 @@ export default function PostsGrid(props: PostsGridPropsType) {
           deletePending={deletePending}
         />
       ))}
-    </Box>
+    </MotionPostsGrid>
   );
 }

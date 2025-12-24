@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 
-// Providers for Tanstack query
+// Providers for third party libraries
 import Providers from "./providers";
 
 // Sans font for general text
@@ -38,6 +38,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/*  Wrap the application with Providers */}
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -4,13 +4,21 @@ import Navigation from "@/components/Navigation";
 
 import { Box, Container, Typography } from "@mui/material";
 
+import { easeInOut, motion } from "motion/react";
+const MotionBox = motion(Box);
+
 export default function About() {
   return (
     <>
       <Navigation />
 
       <Container maxWidth='md' sx={{ py: 4 }}>
-        <Box sx={{ textAlign: "center" }}>
+        <MotionBox
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: easeInOut(0.5) }}
+          sx={{ textAlign: "center" }}
+        >
           <Typography
             variant='h3'
             fontWeight='bold'
@@ -40,7 +48,7 @@ export default function About() {
             Features include post creation with image uploads, real-time
             editing, responsive design, and a clean, intuitive interface.
           </Typography>
-        </Box>
+        </MotionBox>
       </Container>
     </>
   );

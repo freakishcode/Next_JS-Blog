@@ -5,7 +5,7 @@
 import axios from "axios";
 
 // URL for Image
-export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE || "http://localhost";
+export const BASE_URL = "http://localhost";
 
 // Axios instance
 const api = axios.create({
