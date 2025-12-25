@@ -5,7 +5,9 @@
 import axios from "axios";
 
 // URL for Image
-export const BASE_URL = "http://localhost";
+// Reads from NEXT_PUBLIC_API_URL (Next) or NEXT_PUBLIC_API_URL (Vite via import.meta), with a safe fallback
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const BASE_URL = (process.env.NEXT_PUBLIC_API_URL ?? (import.meta as any)?.NEXT_PUBLIC_API_URL ?? "http://localhost").replace(/\/$/, "");
 
 // Axios instance
 const api = axios.create({

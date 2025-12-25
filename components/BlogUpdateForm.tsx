@@ -43,6 +43,10 @@ import {
   CreatePostError,
 } from "@/lib/validators";
 
+// Motion library
+import { easeInOut, motion } from "motion/react";
+
+// Toast
 import { useToast } from "@/UI/ToastMessage/ToastContext";
 
 export default function EditPostPage({ id: propId }: { id?: string }) {
@@ -130,7 +134,10 @@ export default function EditPostPage({ id: propId }: { id?: string }) {
 
   return (
     <div className='min-h-screen p-6'>
-      <form
+      <motion.form
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: easeInOut(0.5) }}
         onSubmit={handleSubmit(onSubmit)}
         className='bg-white shadow rounded-2xl p-6 space-y-6'
         noValidate
@@ -328,7 +335,7 @@ export default function EditPostPage({ id: propId }: { id?: string }) {
             {updatePostMutation.isPending ? "Saving..." : "Save Updates"}
           </Button>
         </Stack>
-      </form>
+      </motion.form>
     </div>
   );
 }

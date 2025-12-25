@@ -10,7 +10,7 @@ import { PostsGridPropsType } from "@/lib/validators";
 import { motion } from "motion/react";
 
 // Motion Box
-const MotionPostsGrid = motion(Box);
+const MotionPostsGrid = motion.create(Box);
 
 export default function PostsGrid(props: PostsGridPropsType) {
   const { posts, onRead, onEdit, onDelete, deletePending = false } = props;

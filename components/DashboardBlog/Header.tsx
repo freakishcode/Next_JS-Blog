@@ -10,8 +10,8 @@ type Props = {
 };
 
 // Motion-enhanced Button and Typography
-const MotionButton = motion(Button);
-const MotionTitle = motion(Typography);
+const MotionButton = motion.create(Button);
+const MotionTitle = motion.create(Typography);
 
 export default function Header({ onCreate }: Props) {
   return (

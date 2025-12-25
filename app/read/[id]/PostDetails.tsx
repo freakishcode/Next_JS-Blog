@@ -5,16 +5,22 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 // MUI
-import { Button, Stack, Box, CircularProgress, Divider } from "@mui/material";
+import { Button, Stack, CircularProgress, Divider, Box } from "@mui/material";
 import {
   Edit as EditIcon,
   ArrowBack as BackIcon,
   CalendarMonth as CalendarIcon,
 } from "@mui/icons-material";
 
+// Motion
+import { easeInOut, motion } from "motion/react";
+
+const MotionArticle = motion.create("article");
+
 export default function PostDetails({ id }: { id: string }) {
   const router = useRouter();
 
+  // Fetch post details using React Query
   const { data, isLoading, error } = useQuery({
     queryKey: ["post", id],
     queryFn: () => ReadPostById(id),
@@ -22,7 +28,7 @@ export default function PostDetails({ id }: { id: string }) {
 
   if (isLoading) {
     return (
-      <div className='flex justify-center py-16'>
+      <div className='flex justify-center items-center py-16'>
         <CircularProgress />
       </div>
     );
@@ -36,26 +42,45 @@ export default function PostDetails({ id }: { id: string }) {
     );
   }
 
+  // Prepare content for improved reading experience
+  const paragraphs = data.content
+    ? data.content.split(/\n\s*\n/).filter(Boolean)
+    : [];
+  const readingTime = data.content
+    ? Math.max(1, Math.round(data.content.split(/\s+/).length / 200))
+    : 1;
+
   return (
-    <article className='max-w-4xl mx-auto px-4 py-6'>
+    <MotionArticle
+      initial={{ opacity: 0, scale: 0.95, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: easeInOut(0.5) }}
+      className='max-w-3xl mx-auto px-4 py-12 bg-white dark:bg-slate-900 rounded-lg shadow-sm text-gray-900 dark:text-gray-100'
+    >
       {/* HEADER */}
-      <header className='mb-6 space-y-3'>
-        <h1 className='text-5xl font-extrabold leading-tight text-gray-900'>
+      <header className='mb-6'>
+        <h1 className='text-4xl md:text-5xl font-extrabold leading-tight'>
           {data.title}
         </h1>
 
-        {data.created_at && (
-          <div className='flex items-center text-gray-600 gap-2'>
-            <CalendarIcon fontSize='small' />
-            <span className='text-sm'>
-              {new Date(data.created_at).toLocaleDateString()}
-            </span>
+        <div className='mt-2 flex items-center text-sm text-gray-600 dark:text-gray-400 gap-4'>
+          {data.created_at && (
+            <div className='flex items-center gap-2'>
+              <CalendarIcon fontSize='small' />
+              <span>{new Date(data.created_at).toLocaleDateString()}</span>
+            </div>
+          )}
+
+          <div className='text-sm'>
+            <span className='font-medium'>{data.author ?? "Author"}</span>
+            <span className='text-gray-400 px-2'>·</span>
+            <span>{readingTime} min read</span>
           </div>
-        )}
+        </div>
       </header>
 
       {/* IMAGE BLOCK */}
-      <div className='flex justify-center mb-6'>
+      <div className='flex justify-center mb-8'>
         <Box
           component='img'
           src={
@@ -77,8 +102,23 @@ export default function PostDetails({ id }: { id: string }) {
       <Divider className='my-6' />
 
       {/* CONTENT */}
-      <div className='prose prose-lg max-w-none text-gray-800 leading-relaxed font-[450]'>
-        {data.content}
+      <div className='prose prose-lg max-w-none text-gray-800 dark:text-gray-200 leading-relaxed'>
+        {paragraphs.length ? (
+          paragraphs.map((p, idx) => (
+            <p
+              key={idx}
+              className={
+                idx === 0
+                  ? "text-lg md:text-xl leading-relaxed mb-6 first-letter:text-6xl first-letter:font-extrabold first-letter:float-left first-letter:mr-3 first-letter:leading-none"
+                  : "mb-6"
+              }
+            >
+              {p}
+            </p>
+          ))
+        ) : (
+          <p className='mb-6'>{data.content}</p>
+        )}
       </div>
 
       <Divider className='my-8' />
@@ -112,6 +152,6 @@ export default function PostDetails({ id }: { id: string }) {
           Edit Post
         </Button>
       </Stack>
-    </article>
+    </MotionArticle>
   );
 }

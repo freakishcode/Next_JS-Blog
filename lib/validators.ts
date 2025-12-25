@@ -90,12 +90,12 @@ export type DeleteResponse = {
   message: string;
 };
 
-
 export const postSchema = z.object({
   id: z.number(),
   title: z.string(),
   content: z.string(),
-  image_url: z.string().nullable(),   // <-- Update here,
+  image_url: z.string().nullable(),
+  author: z.string().optional(),
   created_at: z.string(),
 });
 

@@ -2,11 +2,10 @@
 
 import { AppBar, Toolbar, Button, Box } from "@mui/material";
 import { useRouter } from "next/navigation";
-
 import { easeInOut, motion } from "motion/react";
 
 // Motion-enhanced AppBar
-const MotionAppBar = motion(AppBar);
+const MotionAppBar = motion.create(AppBar);
 
 export default function Navigation() {
   const router = useRouter();

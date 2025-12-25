@@ -32,7 +32,7 @@ import { PostCardPropsType } from "@/lib/validators";
 import { easeInOut, motion } from "motion/react";
 
 // Motion Card
-const MotionCard = motion(Card);
+const MotionCard = motion.create(Card);
 
 export default function PostListItem(props: PostCardPropsType) {
   const { post, onRead, onEdit, onDelete, deletePending = false } = props;
