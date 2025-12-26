@@ -55,7 +55,6 @@ export default function Navigation() {
           alignItems: "center",
         }}
       >
-        {/*  Logo / Brand Name */}
         {/*  Logo / Brand Name (clickable + keyboard accessible) */}
         <Box
           role='button'

@@ -1,4 +1,8 @@
-export const container = {
+// Motion
+import type { Variants } from "motion";
+
+/* Typed motion variants */
+export const container: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -9,7 +13,7 @@ export const container = {
   },
 };
 
-export const item = {
+export const item: Variants = {
   hidden: { opacity: 0, y: 16 },
   show: {
     opacity: 1,
@@ -21,7 +25,7 @@ export const item = {
   },
 };
 
-export const visual = {
+export const visual: Variants = {
   hidden: { opacity: 0, y: 24, scale: 0.96 },
   show: {
     opacity: 1,
