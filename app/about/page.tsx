@@ -1,7 +1,7 @@
 "use client";
 
 import Navigation from "@/components/Navigation";
-
+import FeatureStrip from "../home/FeatureStrip";
 import { Box, Container, Typography } from "@mui/material";
 
 import { easeInOut, motion } from "motion/react";
@@ -50,6 +50,8 @@ export default function About() {
           </Typography>
         </MotionBox>
       </Container>
+
+      <FeatureStrip />
     </>
   );
 }

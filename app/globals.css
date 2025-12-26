@@ -3,6 +3,22 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --light-mode: linear-gradient(
+    to bottom right,
+    #eef2ff,
+    /* indigo-50 */ #ffffff,
+    /* white-color */ #e0f2fe /* sky-100 */
+  );
+  background-attachment: fixed; /* prevents scroll repaint issues */
+
+  --dark-mode: linear-gradient(
+    to bottom right,
+    #18181b,
+    /* zinc-900 */ #121212,
+    /* zinc-950 */ #312e81 /* indigo-950 */
+  );
+  background-attachment: fixed; /* prevents scroll repaint issues */
 }
 
 @theme inline {
@@ -20,7 +36,13 @@
 }
 
 body {
-  background: var(--background);
+  min-height: 100vh;
+  background: var(--dark-mode);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.light body {
+  min-height: 100vh;
+  background: var(--light-mode);
 }

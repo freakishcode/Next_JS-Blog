@@ -16,7 +16,7 @@ export default function Navigation() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: easeInOut(0.5) }}
       position='static'
-      sx={{ mb: 4 }}
+      sx={{ mb: 4, backgroundColor: "transparent", boxShadow: "none" }}
     >
       <Toolbar
         sx={{
