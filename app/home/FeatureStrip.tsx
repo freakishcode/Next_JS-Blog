@@ -19,7 +19,7 @@ export default function FeatureStrip() {
 
   return (
     <section className='border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950'>
-      <div className='mx-auto max-w-7xl px-6 py-16'>
+      <div className='mx-auto max-w-7xl px-6 py-12'>
         <div className='grid gap-10 sm:grid-cols-2 lg:grid-cols-3'>
           {features.map((f) => (
             <div key={f.title} className='flex gap-4'>
